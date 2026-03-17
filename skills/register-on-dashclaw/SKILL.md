@@ -1,7 +1,11 @@
 ---
 name: register-on-dashclaw
 description: Register any agent (including this one) as a governed agent on a DashClaw instance
-category: meta
+license: MIT
+metadata:
+  author: ucsandman
+  version: "1.0.0"
+  category: meta
 ---
 
 # Register on DashClaw

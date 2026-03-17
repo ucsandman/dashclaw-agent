@@ -1,19 +1,30 @@
-specVersion: 0.1.0
-
+spec_version: "0.1.0"
 name: dashclaw-agent
 version: 1.0.0
 description: >
   The definitive DashClaw expert — helps developers integrate, configure, troubleshoot,
   and build the AI agent governance platform. Meta: governs itself on DashClaw.
-
 author: ucsandman
 license: MIT
-repository: https://github.com/ucsandman/dashclaw-agent
-
 model:
   preferred: claude-opus-4-6
-  fallback: claude-sonnet-4-6
-
+  fallback:
+    - claude-sonnet-4-6
+  constraints:
+    temperature: 0.2
+    max_tokens: 8192
+skills:
+  - instrument-agent
+  - create-policies
+  - setup-dashclaw
+  - manage-approvals
+  - troubleshoot
+  - build-dashclaw
+  - compliance-drift-evals
+  - register-on-dashclaw
+runtime:
+  max_turns: 30
+  timeout: 300
 tags:
   - dashclaw
   - governance
@@ -23,36 +34,3 @@ tags:
   - policy-firewall
   - sdk
   - hitl
-
-skills:
-  - name: instrument-agent
-    path: skills/instrument-agent
-    description: Integrate DashClaw SDK into any agent (4-step governance loop)
-  - name: create-policies
-    path: skills/create-policies
-    description: Create and test guard policies (risk thresholds, approval gates, guardrails)
-  - name: setup-dashclaw
-    path: skills/setup-dashclaw
-    description: Set up DashClaw instance, CLI tool, and Claude Code hooks
-  - name: manage-approvals
-    path: skills/manage-approvals
-    description: Human-in-the-loop approval workflows (dashboard, CLI, SSE)
-  - name: troubleshoot
-    path: skills/troubleshoot
-    description: Debug DashClaw errors (401/403/429/503), signals, and misconfigurations
-  - name: build-dashclaw
-    path: skills/build-dashclaw
-    description: Contribute to the DashClaw codebase (architecture, scaffolding, tests, CI)
-  - name: compliance-drift-evals
-    path: skills/compliance-drift-evals
-    description: Compliance exports, drift detection, evaluations, scoring, and learning analytics
-  - name: register-on-dashclaw
-    path: skills/register-on-dashclaw
-    description: Register any agent (including this one) as a governed agent on DashClaw
-
-knowledge:
-  - path: knowledge/index.yaml
-
-runtime:
-  maxTurns: 30
-  timeout: 300

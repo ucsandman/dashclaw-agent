@@ -1,7 +1,11 @@
 ---
 name: setup-dashclaw
 description: Set up a DashClaw instance, install the CLI tool, and configure Claude Code hooks
-category: setup
+license: MIT
+metadata:
+  author: ucsandman
+  version: "1.0.0"
+  category: setup
 ---
 
 # Set Up DashClaw

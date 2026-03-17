@@ -1,7 +1,11 @@
 ---
 name: troubleshoot
 description: Debug DashClaw errors, signal issues, and misconfigurations
-category: debugging
+license: MIT
+metadata:
+  author: ucsandman
+  version: "1.0.0"
+  category: debugging
 ---
 
 # Troubleshoot DashClaw

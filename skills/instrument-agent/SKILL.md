@@ -1,7 +1,11 @@
 ---
 name: instrument-agent
 description: Integrate DashClaw SDK into any agent using the 4-step governance loop
-category: integration
+license: MIT
+metadata:
+  author: ucsandman
+  version: "1.0.0"
+  category: integration
 ---
 
 # Instrument Your Agent with DashClaw

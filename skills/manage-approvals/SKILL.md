@@ -1,7 +1,11 @@
 ---
 name: manage-approvals
 description: Human-in-the-loop approval workflows for governed agent actions
-category: operations
+license: MIT
+metadata:
+  author: ucsandman
+  version: "1.0.0"
+  category: operations
 ---
 
 # Manage Approvals

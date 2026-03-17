@@ -1,7 +1,11 @@
 ---
 name: compliance-drift-evals
 description: Set up compliance exports, drift detection, evaluations, scoring, and learning analytics
-category: analytics
+license: MIT
+metadata:
+  author: ucsandman
+  version: "1.0.0"
+  category: analytics
 ---
 
 # Compliance, Drift, Evaluations & Learning

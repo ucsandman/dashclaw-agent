@@ -1,7 +1,11 @@
 ---
 name: build-dashclaw
 description: Contribute to the DashClaw codebase — architecture, scaffolding, tests, CI
-category: development
+license: MIT
+metadata:
+  author: ucsandman
+  version: "1.0.0"
+  category: development
 ---
 
 # Build DashClaw

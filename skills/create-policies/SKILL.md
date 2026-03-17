@@ -1,7 +1,11 @@
 ---
 name: create-policies
 description: Create and test DashClaw guard policies for agent governance
-category: configuration
+license: MIT
+metadata:
+  author: ucsandman
+  version: "1.0.0"
+  category: configuration
 ---
 
 # Create Guard Policies
