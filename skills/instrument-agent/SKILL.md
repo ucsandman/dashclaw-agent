@@ -157,6 +157,54 @@ claw.update_outcome(action["action_id"], {
 })
 ```
 
+## Action Context — Automatic Correlation (v2.7.0)
+
+Instead of manually passing `action_id` to every call, use `actionContext()`:
+
+### Node.js
+```javascript
+const action = await claw.createAction({
+  action_type: 'deploy',
+  declared_goal: 'Deploy build #402 to production',
+  risk_score: 85,
+  reversible: false
+});
+
+// All operations auto-tagged with action.action_id
+const ctx = claw.actionContext(action.action_id);
+await ctx.sendMessage({ to: 'ops-agent', type: 'status', body: 'Starting deploy' });
+await ctx.recordAssumption({ assumption: 'All CI checks passed' });
+
+try {
+  await actualDeploy(buildId);
+  await ctx.updateOutcome({ status: 'completed', output_summary: 'Deployed successfully' });
+} catch (err) {
+  await ctx.updateOutcome({ status: 'failed', output_summary: err.message });
+}
+```
+
+### Python
+```python
+action = claw.create_action(
+    action_type="deploy",
+    declared_goal="Deploy build #402 to production",
+    risk_score=85,
+    reversible=False
+)
+
+with claw.action_context(action["action_id"]) as ctx:
+    ctx.send_message("Starting deploy", to="ops-agent")
+    ctx.record_assumption({"assumption": "All CI checks passed"})
+
+    try:
+        actual_deploy(build_id)
+        ctx.update_outcome(status="completed", output_summary="Deployed successfully")
+    except Exception as e:
+        ctx.update_outcome(status="failed", output_summary=str(e))
+```
+
+Messages and assumptions sent through the context appear correlated in the decision timeline at `/decisions/{actionId}` — showing the full causal chain of guard decision → messages → action → assumptions → outcome.
+
 ## Complete Example
 
 ```javascript
@@ -191,21 +239,21 @@ async function governedDeploy(buildId) {
     reversible: false
   });
 
-  // 3. Verify assumptions
-  await claw.recordAssumption({
-    action_id: action.action_id,
-    assumption: 'All CI checks passed'
-  });
+  // 3. Use actionContext for automatic correlation (v2.7.0)
+  const ctx = claw.actionContext(action.action_id);
+
+  await ctx.sendMessage({ to: 'ops-agent', type: 'status', body: `Deploying build #${buildId}` });
+  await ctx.recordAssumption({ assumption: 'All CI checks passed' });
 
   // 4. Execute and record outcome
   try {
     await actualDeploy(buildId);
-    await claw.updateOutcome(action.action_id, {
+    await ctx.updateOutcome({
       status: 'completed',
       output_summary: `Build #${buildId} deployed successfully`
     });
   } catch (err) {
-    await claw.updateOutcome(action.action_id, {
+    await ctx.updateOutcome({
       status: 'failed',
       output_summary: err.message
     });

@@ -119,6 +119,55 @@ Auth chain: middleware strips client-sent `x-org-id`/`x-org-role`/`x-user-id` �
 
 ---
 
+### GET /api/actions/:id — Action Detail
+
+**Response includes `message_summary`:**
+```json
+{
+  "action": { ... },
+  "open_loops": [ ... ],
+  "assumptions": [ ... ],
+  "message_summary": {
+    "total": 3,
+    "participants": ["agent-a", "agent-b"],
+    "first_message_at": "2026-03-27T14:32:01Z",
+    "last_message_at": "2026-03-27T14:32:05Z"
+  }
+}
+```
+
+---
+
+### GET /api/actions/:actionId/messages — Correlated Messages
+
+Returns messages linked to an action. Two correlation strategies:
+1. **Explicit** — messages tagged with `action_id` (via SDK `actionContext()`)
+2. **Time-window** — messages from same agent within ±60s of action timestamps
+
+**Query params:** `summary=true` returns count + participants only.
+
+**Response (full):**
+```json
+{
+  "messages": [{ "id": "msg_1", "from_agent_id": "a1", "body": "...", "match_type": "explicit" }],
+  "correlation": "explicit",
+  "total": 3
+}
+```
+
+**Response (summary):**
+```json
+{
+  "total": 3,
+  "participants": ["agent-a", "agent-b"],
+  "correlation": "explicit",
+  "first_message_at": "...",
+  "last_message_at": "..."
+}
+```
+
+---
+
 ### POST /api/assumptions — Record Assumption
 
 **Request:**

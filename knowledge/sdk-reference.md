@@ -1,6 +1,6 @@
 # DashClaw SDK Reference (V2)
 
-Zero-dependency clients for Node.js and Python. 5-method core surface.
+Zero-dependency clients for Node.js and Python. 6-method core surface.
 
 ## Installation
 
@@ -36,7 +36,7 @@ claw = DashClaw(
 )
 ```
 
-## Core Methods (5)
+## Core Methods (6)
 
 ### 1. guard(context) — Check Policy
 
@@ -143,6 +143,30 @@ try:
 except ApprovalDeniedError as e:
     print(f"Denied: {e}")
 ```
+
+### 6. actionContext(actionId) — Scoped Action Context
+
+Auto-tags messages and assumptions with the action_id.
+
+```javascript
+const action = await claw.createAction({ ... });
+const ctx = claw.actionContext(action.action_id);
+
+await ctx.sendMessage({ to: 'ops-agent', type: 'status', body: 'Deploying...' });
+await ctx.recordAssumption({ assumption: 'Tests passed' });
+await ctx.updateOutcome({ status: 'completed', output_summary: 'Done' });
+```
+
+```python
+action = claw.create_action(action_type="deploy", declared_goal="Deploy v2")
+
+with claw.action_context(action["action_id"]) as ctx:
+    ctx.send_message("Deploying...", to="ops-agent")
+    ctx.record_assumption({"assumption": "Tests passed"})
+    ctx.update_outcome(status="completed", output_summary="Done")
+```
+
+Messages sent through the context appear in the decision timeline at `/decisions/{actionId}`.
 
 ## Additional Methods
 
